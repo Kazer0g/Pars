@@ -1,11 +1,51 @@
-# Пjдключение библиотек
+#----------------------------------------------------------------------------------------------------------------------------------------------)
+# Подключение библиотек
 from selenium import webdriver 
 from bs4 import BeautifulSoup
 
 # Драйвер
-chormedriver = webdriver.Chrome()
+driver = webdriver.Chrome() # Подключение Хрома
+
+# Классы---------------------------------------------------------------------------------------------------------------------------------------)
+class vacancia:
+
+    def __init__ (self, link):
+
+        self.link = link
+# Кортежи--------------------------------------------------------------------------------------------------------------------------------------)
+vacansii = []
+words = []
+# Функции--------------------------------------------------------------------------------------------------------------------------------------)
+# Функция считывания HTML кода страницы
+def get_page_html (link):
+    global soup
+    html_page = driver.page_source # Запись в переменную HTML код 
+    soup = BeautifulSoup(html_page)
+
+# Функция добавления слова в кортеж
+def new_word_up (mb_new_word):
+    for word in words:
+        if mb_new_word != word:
+            new_word = mb_new_word
+        else:
+            new_word = " "
+    if new_word != " ":
+        print ("Запись " + new_word)
+        words.append(new_word)
+# Основа---------------------------------------------------------------------------------------------------------------------------------------)
 
 # Переход на страницу 
 print ("Сайт открывается...")
-chormedriver.get("https://www.superjob.ru/vakansii/programmist.html")
+driver.get("https://www.superjob.ru/vakansii/programmist.html") # Переход по ссылке на сайт
 
+# Стандартная ссылка на страницу сайта
+page_link = "https://www.superjob.ru/vakansii/programmist.html?page="
+
+for i in range (1, 20):
+
+    print ("Переход на страницу " + str(i) + "...")
+    next_page_link = page_link + str(i) # Изменение ссылки на  ссылку следующей страницы
+    driver.get(next_page_link) # Переход на следующую страницу
+
+    print ("Считывание кода страницы...")
+    get_page_html (next_page_link) # Функция считывания HTML кода страницы
