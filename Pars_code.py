@@ -1,10 +1,11 @@
+# Пjдключение библиотек
 from selenium import webdriver 
+from bs4 import BeautifulSoup
 
-def main(): 
-    driver = webdriver.Chrome()# Подлкючение браузера
-    driver.get("https://ru.wikipedia.org/wiki/Selenium")# Ссылка на нужный сайт
-    title = driver.find_element_by_tag_name("h1")# Поиск элемента
-    print (title.text)
+# Драйвер
+chormedriver = webdriver.Chrome()
 
-if __name__ == "__main__":
-    main()
+# Переход на страницу 
+print ("Сайт открывается...")
+chormedriver.get("https://www.superjob.ru/vakansii/programmist.html")
+
