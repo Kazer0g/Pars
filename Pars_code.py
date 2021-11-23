@@ -2,6 +2,7 @@
 # Подключение библиотек
 from selenium import webdriver 
 from bs4 import BeautifulSoup
+import re
 
 # Драйвер
 driver = webdriver.Chrome() # Подключение Хрома
@@ -17,11 +18,16 @@ vacansii = []
 words = []
 # Функции--------------------------------------------------------------------------------------------------------------------------------------)
 # Функция считывания HTML кода страницы
-def get_page_html (link):
+def get_page_html ():
     global soup
     html_page = driver.page_source # Запись в переменную HTML код 
-    soup = BeautifulSoup(html_page)
+    soup = BeautifulSoup(html_page, "html.parser") # Передача актуального HTML кода в BS4
 
+    
+    print (re.findall(r'<a.*>.*</a>', str(soup)))
+
+    # v = vacansia (link) # Создание объекта вакансии
+    # vacansii.appened (v) # Запись вакансии в список
 # Функция добавления слова в кортеж
 def new_word_up (mb_new_word):
     for word in words:
@@ -41,6 +47,7 @@ driver.get("https://www.superjob.ru/vakansii/programmist.html") # Переход
 # Стандартная ссылка на страницу сайта
 page_link = "https://www.superjob.ru/vakansii/programmist.html?page="
 
+# Цикл перехода по стринцам
 for i in range (1, 20):
 
     print ("Переход на страницу " + str(i) + "...")
@@ -48,4 +55,4 @@ for i in range (1, 20):
     driver.get(next_page_link) # Переход на следующую страницу
 
     print ("Считывание кода страницы...")
-    get_page_html (next_page_link) # Функция считывания HTML кода страницы
+    get_page_html () # Функция считывания HTML кода страницы
