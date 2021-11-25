@@ -2,13 +2,13 @@
 # Подключение библиотек
 from selenium import webdriver 
 from bs4 import BeautifulSoup
-import re
+# import re
 
 # Драйвер
 driver = webdriver.Chrome() # Подключение Хрома
 
 # Классы---------------------------------------------------------------------------------------------------------------------------------------)
-class vacancia:
+class vacansia:
 
     def __init__ (self, link):
 
@@ -17,14 +17,22 @@ class vacancia:
 vacansii = []
 words = []
 # Функции--------------------------------------------------------------------------------------------------------------------------------------)
+# Финкция фильтровки строк вакансий
+def cut_str (long_str):
+    index_start = long_str.find ("/vakansii/")
+    index_end = long_str.find ("\"", index_start)
+    fine_str = long_str[index_start:index_end:] # Ссылка из строки с targer = "_blank" и href начинающиеся с /vacansii/
+    print (fine_str)
+    v = vacansia (str(fine_str))
+    vacansii.append (v)
+    print (str(vacansii[0].link))
 # Функция считывания HTML кода страницы
 def get_page_html ():
     global soup
     html_page = driver.page_source # Запись в переменную HTML код 
-    soup = BeautifulSoup(html_page, "html.parser") # Передача актуального HTML кода в BS4
-
-    
-    print (re.findall(r'<a.*>.*</a>', str(soup)))
+    soup = BeautifulSoup(html_page, "lxml") # Передача актуального HTML кода в BS4
+    long_str = soup.find_all(target="_blank") # Все тэги с target = "_blank"
+    cut_str (str(long_str))
 
     # v = vacansia (link) # Создание объекта вакансии
     # vacansii.appened (v) # Запись вакансии в список
