@@ -19,23 +19,30 @@ words = []
 # Функции--------------------------------------------------------------------------------------------------------------------------------------)
 # Финкция фильтровки строк вакансий
 def cut_str (long_str):
-    index_start = long_str.find ("/vakansii/")
-    index_end = long_str.find ("\"", index_start)
-    fine_str = long_str[index_start:index_end:] # Ссылка из строки с targer = "_blank" и href начинающиеся с /vacansii/
-    print (fine_str)
-    v = vacansia (str(fine_str))
-    vacansii.append (v)
-    print (str(vacansii[0].link))
+
+    index_start = long_str.find ("/vakansii/") # Начало ссылки с /vacansii/
+    if index_start != -1:
+        index_end = long_str.find ("\"", index_start) # Конец ссылки "
+        fine_str = long_str[index_start:index_end:] # Ссылка из строки с targer = "_blank" и href начинающиеся с /vacansii/
+
+        print ("Ссылка: " + str(fine_str)) 
+        v = vacansia (str(fine_str))
+        vacansii.append (v)
+        cut_str (long_str[index_end-1:])
+
+# Функция поиска строк вакансий
+def search_blank ():
+    long_str = soup.findAll(target="_blank") # Все тэги с target = "_blank"
+    print ("Запись ссылок вакансий...")
+    cut_str (str(long_str))
+
 # Функция считывания HTML кода страницы
 def get_page_html ():
     global soup
     html_page = driver.page_source # Запись в переменную HTML код 
     soup = BeautifulSoup(html_page, "lxml") # Передача актуального HTML кода в BS4
-    long_str = soup.find_all(target="_blank") # Все тэги с target = "_blank"
-    cut_str (str(long_str))
+    search_blank ()
 
-    # v = vacansia (link) # Создание объекта вакансии
-    # vacansii.appened (v) # Запись вакансии в список
 # Функция добавления слова в кортеж
 def new_word_up (mb_new_word):
     for word in words:
