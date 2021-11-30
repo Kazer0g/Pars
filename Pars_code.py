@@ -17,6 +17,10 @@ class vacansia:
 vacansii = []
 words = []
 # Функции--------------------------------------------------------------------------------------------------------------------------------------)
+# Функция поиска текста на страницах вакансий
+def search_class ():
+    long_str = soup.find(class_= "_2LeqZ _3ceWi _1XzYb Js9sN _3Jn4o WGREZ")
+
 # Финкция фильтровки строк вакансий
 def cut_str (long_str):
 
@@ -41,7 +45,6 @@ def get_page_html ():
     global soup
     html_page = driver.page_source # Запись в переменную HTML код 
     soup = BeautifulSoup(html_page, "lxml") # Передача актуального HTML кода в BS4
-    search_blank ()
 
 # Функция добавления слова в кортеж
 def new_word_up (mb_new_word):
@@ -71,3 +74,14 @@ for i in range (1, 20):
 
     print ("Считывание кода страницы...")
     get_page_html () # Функция считывания HTML кода страницы
+    search_blank ()
+
+print ("---Все ссылки записаны---")
+
+for j in range (len(vacansii)):
+    print ("Переход по ссылке на вакансию: \n" + "https://www.superjob.ru/" + str(vacansii[j].link))
+    driver.get(str("https://www.superjob.ru/" + vacansii[j].link))
+    get_page_html() # Функция считывания HTML кода страницы
+    search_class () 
+
+
