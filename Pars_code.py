@@ -17,24 +17,28 @@ class vacansia:
 # Кортежи=============================================================================================================================)
 vacansii = []
 words = []
+sentenses = []
 # Функции=============================================================================================================================)
 # Функция записи текста
 def cut_inf (long_inf):
     global data
     index_start = long_inf.find("<li>") 
     if index_start != 3:
-        index_end = long_inf.find ("<", index_start)
-        collect = str(long_inf)[index_start:index_end:]
+        index_end = long_inf.find ("<", index_start+1)
+        collect = str(long_inf)[index_start+4:index_end:]
+        if collect != "":
+            sentenses.append (collect)
+            long_inf = long_inf[index_end+5::]
+            cut_inf (long_inf)
 
-        data = data + " " + str(collect)
-
-        print (data)
+        
+       
 
 # Функция поиска текста на страницах вакансий
 def search_class ():
     long_inf = soup.find(class_= "_2LeqZ _3ceWi _1XzYb Js9sN _3Jn4o WGREZ")
     print ("Запись информации...")
-    cut_inf (long_inf)
+    cut_inf (str(long_inf))
 
 #-------------------------------------------------------------------------------------)
 
@@ -102,5 +106,7 @@ for j in range (len(vacansii)):
     driver.get(str("https://www.superjob.ru/" + vacansii[j].link))
     get_page_html() # Функция считывания HTML кода страницы
     search_class () 
+
+print (sentenses)
 
 
