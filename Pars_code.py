@@ -11,9 +11,10 @@ data = ""
 # Классы==============================================================================================================================)
 class vacansia:
 
-    def __init__ (self, link):
+    def __init__ (self, link, data):
 
         self.link = link
+        self.data = data
 # Кортежи=============================================================================================================================)
 vacansii = []
 words = []
@@ -22,14 +23,13 @@ sentenses = []
 # Функция записи текста
 def cut_inf (long_inf):
     global data
-    index_start = long_inf.find("<li>") 
-    if index_start != 3:
-        index_end = long_inf.find ("<", index_start+1)
-        collect = str(long_inf)[index_start+4:index_end:]
-        if collect != "":
-            sentenses.append (collect)
-            long_inf = long_inf[index_end+5::]
-            cut_inf (long_inf)
+    index_start = long_inf.find("<") 
+    index_end = long_inf.find(">")
+    if index_start != -1:
+        long_inf = long_inf[:index_start:] + long_inf[index_end+1::]
+        cut_inf (long_inf)
+    else:
+        data = long_inf
 
         
        
@@ -51,7 +51,7 @@ def cut_str (long_str):
         fine_str = long_str[index_start:index_end:] # Ссылка из строки с targer = "_blank" и href начинающиеся с /vacansii/
 
         print ("Ссылка: " + str(fine_str)) 
-        v = vacansia (str(fine_str))
+        v = vacansia (str(fine_str), "")
         vacansii.append (v)
         cut_str (long_str[index_end-1:])
 
@@ -106,7 +106,8 @@ for j in range (len(vacansii)):
     driver.get(str("https://www.superjob.ru/" + vacansii[j].link))
     get_page_html() # Функция считывания HTML кода страницы
     search_class () 
+    vacansii[j].data = data
 
-print (sentenses)
+
 
 
