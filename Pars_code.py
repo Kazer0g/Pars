@@ -18,8 +18,8 @@ class vacansia:
 # Кортежи=============================================================================================================================)
 vacansii = []
 words = []
-sentenses = []
 # Функции=============================================================================================================================)
+
 # Функция записи текста
 def cut_inf (long_inf):
     global data
@@ -30,9 +30,6 @@ def cut_inf (long_inf):
         cut_inf (long_inf)
     else:
         data = long_inf
-
-        
-       
 
 # Функция поиска текста на страницах вакансий
 def search_class ():
@@ -61,13 +58,35 @@ def search_blank ():
     print ("Запись ссылок вакансий...")
     cut_str (str(long_str))
 
-
 #-------------------------------------------------------------------------------------)
+
 # Функция считывания HTML кода страницы
 def get_page_html ():
     global soup
+    print ("Считывание кода страницы...")
     html_page = driver.page_source # Запись в переменную HTML код 
     soup = BeautifulSoup(html_page, "lxml") # Передача актуального HTML кода в BS4
+
+
+#-------------------------------------------------------------------------------------)
+
+# Функция проверки на аббривиатуру
+def ABB_chek (word):
+    print (word)
+    for index in word:
+        if word[index].isupper == False:
+            return False
+    return True
+
+
+#-------------------------------------------------------------------------------------)
+
+# Функция расложения текста на слова
+def inwords (long_text):
+    index_start = long_text.find (" ")
+    index_end = long_text.find (" ", index_start + 1)
+    if long_text[index_start].isupper == True:
+        ABB_chek (long_str[index_start:index_end:])
 
 # Функция добавления слова в кортеж
 def new_word_up (mb_new_word):
@@ -79,6 +98,7 @@ def new_word_up (mb_new_word):
     if new_word != " ":
         print ("Запись " + new_word)
         words.append(new_word)
+
 # Основа==============================================================================================================================)
 
 # Переход на страницу 
@@ -95,7 +115,6 @@ for i in range (1, 2):
     next_page_link = page_link + str(i) # Изменение ссылки на  ссылку следующей страницы
     driver.get(next_page_link) # Переход на следующую страницу
 
-    print ("Считывание кода страницы...")
     get_page_html () # Функция считывания HTML кода страницы
     search_blank ()
 
@@ -107,6 +126,11 @@ for j in range (len(vacansii)):
     get_page_html() # Функция считывания HTML кода страницы
     search_class () 
     vacansii[j].data = data
+
+for l in range (len(vacansii)):
+    print ("Обработка теста...")
+    inwords (vacansii[l].data)
+
 
 
 
