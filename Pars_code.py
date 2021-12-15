@@ -16,10 +16,19 @@ class vacansia:
         self.link = link
         self.data = data
 # Кортежи=============================================================================================================================)
+
 vacansii = []
 words = []
+pLib = ["!", "#", "$", "%", "&", "'", "*", "+", ",", ".", "/", ":", ";", "<", "=", ">", "?", "[", "\\", "]",  "^", "_",  "`",  "{", "|", "}", "~"]
+
 # Функции=============================================================================================================================)
 
+def clean (long_text):
+    global cleaned
+    for i in pLib:
+        long_text = long_text.replace (i, " ")
+    cleaned = long_text
+#-------------------------------------------------------------------------------------)
 # Функция записи текста
 def cut_inf (long_inf):
     global data
@@ -83,10 +92,7 @@ def ABB_chek (word):
 
 # Функция расложения текста на слова
 def inwords (long_text):
-    index_start = long_text.find (" ")
-    index_end = long_text.find (" ", index_start + 1)
-    if long_text[index_start].isupper == True:
-        ABB_chek (long_str[index_start:index_end:])
+    long_text = " " + long_text   
 
 # Функция добавления слова в кортеж
 def new_word_up (mb_new_word):
@@ -120,15 +126,20 @@ for i in range (1, 2):
 
 print ("---Все ссылки записаны---")
 
-for j in range (len(vacansii)):
+for j in range (1):
     print ("Переход по ссылке на вакансию: \n" + "https://www.superjob.ru/" + str(vacansii[j].link))
     driver.get(str("https://www.superjob.ru/" + vacansii[j].link))
     get_page_html() # Функция считывания HTML кода страницы
     search_class () 
     vacansii[j].data = data
+    print (vacansii[j].data)
 
 for l in range (len(vacansii)):
-    print ("Обработка теста...")
+    print ("Обработка текста вакансии: \n" + "https://www.superjob.ru/" + str(vacansii[l].link))
+    print ("Очистка текста...")
+    clean (vacansii[l].data)
+    vacansii [l].data = cleaned
+    print ("Поиск...")
     inwords (vacansii[l].data)
 
 
