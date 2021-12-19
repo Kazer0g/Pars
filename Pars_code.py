@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 driver = webdriver.Chrome() # Подключение Хрома
 # Переменные==========================================================================================================================)
 data = ""
+new_word = ""
 # Классы==============================================================================================================================)
 class vacansia:
 
@@ -23,12 +24,27 @@ pLib = ["!", "#", "$", "%", "&", "'", "*", "+", ",", ".", "/", ":", ";", "<", "=
 
 # Функции=============================================================================================================================)
 
+# Функция очистки текста
 def clean (long_text):
     global cleaned
     for i in pLib:
         long_text = long_text.replace (i, " ")
     cleaned = long_text
+
 #-------------------------------------------------------------------------------------)
+
+# Функция отлова по критериям
+def catch (long_text):
+    catch_skobka (long_text)
+
+def catch_skobka (long_text):
+    index_start = long_text.find ("(")
+    if index_start != -1:
+        index_end = long_text.find (")")
+
+
+#-------------------------------------------------------------------------------------)
+
 # Функция записи текста
 def cut_inf (long_inf):
     global data
@@ -92,16 +108,21 @@ def ABB_chek (word):
 
 # Функция расложения текста на слова
 def inwords (long_text):
-    long_text = " " + long_text   
+    index = long_text.find(" ")
+    if index != -1:
+# Дейтсвие определения long_text[:index:] ++++++++++++++++++++++++++++++++++++++++++++)
+        i (long_text[index+1::])
 
-# Функция добавления слова в кортеж
+# Функция добавления слова в кортеж (возможно ненужная функция)
 def new_word_up (mb_new_word):
+    global new_word
     for word in words:
         if mb_new_word != word:
             new_word = mb_new_word
         else:
             new_word = " "
     if new_word != " ":
+        print (mb_new_word)
         print ("Запись " + new_word)
         words.append(new_word)
 
@@ -140,6 +161,7 @@ for l in range (len(vacansii)):
     clean (vacansii[l].data)
     vacansii [l].data = cleaned
     print ("Поиск...")
+    # catch (vacansii[l].data)
     inwords (vacansii[l].data)
 
 
