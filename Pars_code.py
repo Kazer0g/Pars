@@ -20,7 +20,8 @@ class vacansia:
 
 vacansii = []
 words = []
-pLib = ["!", "#", "$", "%", "&", "'", "*", "+", ",", ".", "/", ":", ";", "<", "=", ">", "?", "[", "\\", "]",  "^", "_",  "`",  "{", "|", "}", "~"]
+abb = []
+pLib = ["!", "#", "$", "%", "&", "'", "*", "+", ",", ".", "/", ":", ";", "<", "=", ">", "?", "[", "\\", "]",  "^", "_",  "`",  "{", "|", "}", "~", "-", "(", ")", "—"]
 
 # Функции=============================================================================================================================)
 
@@ -58,7 +59,7 @@ def cut_inf (long_inf):
 
 # Функция поиска текста на страницах вакансий
 def search_class ():
-    long_inf = soup.find(class_= "_2LeqZ _3ceWi _1XzYb Js9sN _3Jn4o WGREZ")
+    long_inf = soup.find(class_= "_2LeqZ _2ZUiD _3DjcL _1tCB5 _3fXVo _2iyjv")
     print ("Запись информации...")
     cut_inf (str(long_inf))
 
@@ -94,14 +95,21 @@ def get_page_html ():
 
 
 #-------------------------------------------------------------------------------------)
+# Функция распределения
+def distribution (word):
+    if len(word) > 0:
+        if word[0].isupper() == True:
+            if len(word) > 1:
+                ABB_chek (word)
 
 # Функция проверки на аббривиатуру
 def ABB_chek (word):
-    print (word)
-    for index in word:
-        if word[index].isupper == False:
-            return False
-    return True
+    bool = True
+    for index in range (len(word)):
+        if word[index].isupper() == False:
+            bool = False
+    if bool == True:
+        new_word_up (word, abb)
 
 
 #-------------------------------------------------------------------------------------)
@@ -110,21 +118,19 @@ def ABB_chek (word):
 def inwords (long_text):
     index = long_text.find(" ")
     if index != -1:
-# Дейтсвие определения long_text[:index:] ++++++++++++++++++++++++++++++++++++++++++++)
-        i (long_text[index+1::])
+        distribution (long_text[:index:])
+        inwords (long_text[index+1::])
 
 # Функция добавления слова в кортеж (возможно ненужная функция)
-def new_word_up (mb_new_word):
+def new_word_up (mb_new_word, place):
     global new_word
-    for word in words:
-        if mb_new_word != word:
-            new_word = mb_new_word
-        else:
-            new_word = " "
-    if new_word != " ":
-        print (mb_new_word)
-        print ("Запись " + new_word)
-        words.append(new_word)
+    bool = True
+    for word in place:
+        if word == mb_new_word:
+            bool = False
+
+    if bool == True:
+        place.append(mb_new_word)
 
 # Основа==============================================================================================================================)
 
@@ -153,7 +159,6 @@ for j in range (1):
     get_page_html() # Функция считывания HTML кода страницы
     search_class () 
     vacansii[j].data = data
-    print (vacansii[j].data)
 
 for l in range (len(vacansii)):
     print ("Обработка текста вакансии: \n" + "https://www.superjob.ru/" + str(vacansii[l].link))
@@ -163,6 +168,7 @@ for l in range (len(vacansii)):
     print ("Поиск...")
     # catch (vacansii[l].data)
     inwords (vacansii[l].data)
+    print (abb)
 
 
 
