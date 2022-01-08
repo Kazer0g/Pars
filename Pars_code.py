@@ -142,7 +142,7 @@ driver.get("https://www.superjob.ru/vakansii/programmist.html") # Переход
 page_link = "https://www.superjob.ru/vakansii/programmist.html?page="
 
 # Цикл перехода по стринцам
-for i in range (1, 2):
+for i in range (1, 14):
 
     print ("Переход на страницу " + str(i) + "...")
     next_page_link = page_link + str(i) # Изменение ссылки на  ссылку следующей страницы
@@ -153,7 +153,9 @@ for i in range (1, 2):
 
 print ("---Все ссылки записаны---")
 
-for j in range (1):
+#len(vacansii)
+
+for j in range (len(vacansii)):
     print ("Переход по ссылке на вакансию: \n" + "https://www.superjob.ru/" + str(vacansii[j].link))
     driver.get(str("https://www.superjob.ru/" + vacansii[j].link))
     get_page_html() # Функция считывания HTML кода страницы
@@ -168,9 +170,10 @@ for l in range (len(vacansii)):
     print ("Поиск...")
     # catch (vacansii[l].data)
     inwords (vacansii[l].data)
-    print (abb)
 
+with open ("abbreviations.txt", "w") as f:
+    for p in abb:
+        f.write(p + "\n")
 
-
-
+print ("Завершение работы.")
 
