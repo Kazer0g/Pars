@@ -178,6 +178,8 @@ for l in range (len(vacansii)):
 
 print ("Подсчет повторений...")
 with open ("counts.txt", "w") as c:
+    c.write ("Вакансий обработано: " + str(len(vacansii)))
+    c.write ("Аббревиатур найденно: " + str(len(abb)))
     for n in abb:
         num.append(counts.count(n))
         di[n] = counts.count(n)
@@ -195,6 +197,6 @@ with open ("abbreviations.txt", "w") as f:
         f.write(p + "\n")
 
 print ("Завершение работы.")
-print ("Вакансий обработано: " + str(len(vacansii)))
-print ("Аббревиатур найденно: " + str(len(abb)))
+
+
 
