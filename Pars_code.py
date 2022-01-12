@@ -22,6 +22,9 @@ vacansii = []
 words = []
 abb = []
 pLib = ["!", "#", "$", "%", "&", "'", "*", "+", ",", ".", "/", ":", ";", "<", "=", ">", "?", "[", "\\", "]",  "^", "_",  "`",  "{", "|", "}", "~", "-", "(", ")", "—"]
+counts = []
+num = []
+di = dict()
 
 # Функции=============================================================================================================================)
 
@@ -56,7 +59,7 @@ def cut_inf (long_inf):
         cut_inf (long_inf)
     else:
         data = long_inf
-1
+
 # Функция поиска текста на страницах вакансий
 def search_class ():
     long_inf = soup.find(class_= "_2LeqZ _2ZUiD _3DjcL _1tCB5 _3fXVo _2iyjv")
@@ -125,13 +128,15 @@ def inwords (long_text):
 def new_word_up (mb_new_word, place):
     global new_word
     bool = True
-    for word in place:
-        if word == mb_new_word:
-            bool = False
+    if re.search (r'[^а-яА-Я]', mb_new_word):
+        for word in place:
+            if word == mb_new_word:
+                bool = False
+                counts.append(mb_new_word)
 
-    if bool == True:
-        place.append(mb_new_word)
-
+        if bool == True:
+            place.append(mb_new_word)
+            counts.append(mb_new_word)
 # Основа==============================================================================================================================)
 
 # Переход на страницу 
@@ -171,10 +176,25 @@ for l in range (len(vacansii)):
     # catch (vacansii[l].data)
     inwords (vacansii[l].data)
 
+print ("Подсчет повторений...")
+with open ("counts.txt", "w") as c:
+    for n in abb:
+        num.append(counts.count(n))
+        di[n] = counts.count(n)
+        num = list(set(num))
+    num = sorted(num, reverse=True)
+    for g in num:
+        for p in di:
+            if di[p] == g:
+                c.write(p + " " + str(g) + "\n")
+
+print ("Запись аббревиатур...")
+
 with open ("abbreviations.txt", "w") as f:
     for p in abb:
-        if re.search (r'[^а-яА-Я]', p):
-            f.write(p + "\n")
+        f.write(p + "\n")
 
 print ("Завершение работы.")
+print ("Вакансий обработано: " + str(len(vacansii)))
+print ("Аббревиатур найденно: " + str(len(abb)))
 
