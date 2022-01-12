@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 driver = webdriver.Chrome() # Подключение Хрома
 
 words = []
+errors = []
 
 #-------------------------------------------------------------------------------------)
 
@@ -45,12 +46,19 @@ with open ("abbreviations.txt", "r") as f:
 
 print ("Поиск и запись определений...")
 
+t = open ("Error.txt", "w")
+n = open ("None.txt", "w")
+
 with open ("discriptions.txt", "w") as d:
 	for i in range (len(words)):
-	
-		driver.get ("https://www.google.com/search?q=" + words[i] + " определение")
-		get_page_html ()
-		search_class ()
-	
-		d.write (data + "\n")
-
+		
+		try:
+			driver.get ("https://www.google.com/search?q=" + words[i] + " определение")
+			get_page_html ()
+			search_class ()
+			if data == "None":
+				n.write(words[i])
+			else:
+				d.write (words[i] + data + "\n\n")
+		except UnicodeEncodeError:
+			t.write (words [i])

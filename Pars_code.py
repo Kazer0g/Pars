@@ -2,7 +2,7 @@
 # Подключение библиотек
 from selenium import webdriver 
 from bs4 import BeautifulSoup
-# import re
+import re
 
 # Драйвер
 driver = webdriver.Chrome() # Подключение Хрома
@@ -56,7 +56,7 @@ def cut_inf (long_inf):
         cut_inf (long_inf)
     else:
         data = long_inf
-
+1
 # Функция поиска текста на страницах вакансий
 def search_class ():
     long_inf = soup.find(class_= "_2LeqZ _2ZUiD _3DjcL _1tCB5 _3fXVo _2iyjv")
@@ -173,7 +173,8 @@ for l in range (len(vacansii)):
 
 with open ("abbreviations.txt", "w") as f:
     for p in abb:
-        f.write(p + "\n")
+        if re.search (r'[^а-яА-Я]', p):
+            f.write(p + "\n")
 
 print ("Завершение работы.")
 
