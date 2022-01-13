@@ -1,4 +1,3 @@
-PÔ
 SCSS
 SASS
 NC
